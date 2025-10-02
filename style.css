@@ -1,0 +1,226 @@
+/* css reset */
+* {                          /* universal selector, targets all elements on page */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;  /* adds padding & borders to elements dimensions */
+    font-family: "Tahoma";
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+header, footer, section {    /* shared layout style */
+    display: flex;
+    justify-content: center; /* horizontally centers */
+    align-items: center;     /* vertically centers */
+}
+
+header { 
+    position: sticky;
+    top: 0;
+    background: #1a1a1a;
+    color: white;
+    height: 10vh;
+    z-index: 10;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+}
+
+header nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+header nav a:hover {
+    color: #ffcc00;
+}
+
+/* hero section */
+.hero {
+    height: 100vh;         /* full viewport height */
+    overflow: hidden;      /* hides any image overflow */
+    color: white;
+}
+
+.hero-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    object-position: center;
+    z-index: 0;
+}
+
+.hero-content {
+    position: absolute;
+    top: 25%;
+    left: 10%;
+    text-align: left;
+    z-index: 1;            /* ensures it's on top of the image */
+    padding: 1.5rem;
+}
+
+.hero-content h1 {
+    margin-bottom: 0.5em;
+    text-align: left;
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    margin-bottom: 1.5em;
+}
+
+.portfolio-btn {
+    background: #ffcc00;
+    color: #000;
+    padding: 0.8em 1.5em;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.portfolio-btn:hover {
+    background: #ffd633;
+}
+
+/* projects section */
+.projetos {
+    flex-direction: column;
+    background: #f3f3f3;
+    height: 100vh;
+    text-align: center;
+    padding: 2em;
+}
+
+.projetos h2 {
+    margin-bottom: 1.5em;
+    font-size: 2.5rem;
+}
+
+.card-container {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    background: white;
+    padding: 1.5em;
+    width: 250px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.card h3 {
+    margin-bottom: 0.5em;
+}
+
+.card p {
+    margin-bottom: 1em;
+}
+
+.card a {
+    display: inline-block;
+    background: #1a1a1a;
+    color: white;
+    font-weight: bold;
+    padding: 0.5em 1em;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.card a:hover {
+    background: #ffcc00;
+    color: #000;
+}
+
+/* module section */
+.disciplina {
+    background: #fd1e6f;
+    height: 100vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 2em;
+}
+
+.disciplina h2 {
+    margin-bottom: 0.5em;
+    font-size: 2.5rem;
+}
+
+.disciplina-text {
+    max-width: 500px;
+    color: white;
+}
+
+.moodle-link {
+    color:#f3f3f3e9;
+}
+
+.moodle-link:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.disciplina-text ul {
+    margin-top: 1.5em;
+    list-style: disc;
+    padding-left: 1.5em;
+}
+
+.disciplina-img img {
+    width: 300px;
+    max-width: 90%;
+}
+
+nav ul {
+    list-style: none ;
+    padding: 0;
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: -10%;
+}
+
+nav li {
+    list-style: none;
+    color: #ffcc00;
+}
+
+/* footer */
+footer {
+    background: #1a1a1a;
+    color: white;
+    height: 10vh;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+/* responsive design */
+@media (max-width: 768px) {
+    .disciplina {
+        flex-direction: column;
+        text-align: center;
+        height: auto;
+    }
+
+    .disciplina-img img {
+        margin-top: 2em;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+}
