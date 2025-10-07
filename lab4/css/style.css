@@ -101,6 +101,10 @@ footer {
     100% { transform: scale(1) rotate(0deg); }
 }
 
+#comment-box {
+    margin-top: -2em;
+}
+
 
 /* cursor follower */
 #follow-img {
