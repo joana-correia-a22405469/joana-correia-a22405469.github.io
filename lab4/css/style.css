@@ -1,0 +1,112 @@
+/* page styling */
+body {
+    font-family: Comic Sans MS;
+    background-color: #fff7e6;
+    color: #333;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+header, footer {
+    background-color: #ffcc80;
+    padding: 15px;
+    border-bottom: 2px solid #e69500;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 20px;
+}
+
+footer {
+    border-top: 2px solid #e69500;
+    margin-top: 20px;
+}
+
+/* cat styling */
+#cat-area {
+    position: relative;
+}
+
+#cat {
+    width: 250px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+#cat:hover {
+    transform: scale(1.05);
+}
+
+/* animated hearts */
+.heart {
+    position: absolute;
+    color: red;
+    font-size: 22px;
+    animation: floatUp 2.5s ease-out forwards;
+    opacity: 0.9;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+    50% { transform: translateY(-50px) scale(1.4) rotate(20deg); opacity: 0.9; }
+    100% { transform: translateY(-120px) scale(0.8) rotate(-15deg); opacity: 0; }
+}
+
+/* fish styling */
+#fish {
+    width: 100px;
+    cursor: grab;
+    transition: transform 0.2s ease;
+}
+
+#fish.dragging {
+    opacity: 0.7;
+    transform: scale(1.2);
+}
+
+/* info box styling */
+#info-box {
+    width: 300px;
+    background-color: #ffebc6;
+    border: 3px solid #ffa726;
+    border-radius: 12px;
+    padding: 15px;
+    transition: background-color 0.4s, color 0.4s, transform 0.3s;
+    cursor: pointer;
+    position: relative;
+}
+
+#info-box:hover {
+    background-color: #ffe0b2;
+    color: #ff6600;
+    transform: scale(1.03);
+}
+
+/* pulse effect when info box is double clicked */
+.pulse {
+    animation: pulseShake 0.5s ease;
+}
+
+@keyframes pulseShake {
+    0%   { transform: scale(1) rotate(0deg); }
+    20%  { transform: scale(1.05) rotate(2deg); }
+    40%  { transform: scale(0.97) rotate(-2deg); }
+    60%  { transform: scale(1.04) rotate(2deg); }
+    80%  { transform: scale(0.98) rotate(-2deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+
+/* cursor follower */
+#follow-img {
+    position: fixed;
+    width: 80px;
+    opacity: 0.8;
+    pointer-events: none;
+    transition: transform 0.1s linear;
+}

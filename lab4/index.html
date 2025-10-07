@@ -1,21 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Example</title>
-    <link rel="stylesheet" href="/lab4/css/style.css"/>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My Virtual Cat</title>
+        <link rel="stylesheet" href="/lab4/css/style.css">
+    </head>
 
-<body>
-    <h1>Welcome to My Page</h1>
-    <p>Lorem Lorem Lorem</p>
+    <body>
+        <header>
+            <h1>My Virtual Cat 🐈‍⬛</h1>
+        </header>
 
-    <!-- HTML já carregado! -->
-    <script src="scripts/main.js"></script>
-</body>
+        <main>
+            <section id="cat-area">
+                <img id="cat" src="images/cat.png" alt="cat">
+                <p id="cat-message"></p>
+                <p id="counter">You've pet salem 0 times!</p>
+                <p><b>(click on salem to pet her)</b></p>
+            </section>
 
-<footer>
-    DIW &#169; 2025
-</footer>
+            <section id="fish-area">
+                <img id="fish" src="images/fish.png" alt="fish food" draggable="true">
+                <p><b>(drag the fish to feed salem)</b></p>
+            </section>
+
+            <section id="info-area">
+                <div id="info-box">
+                    <h2 id="info-title">Meet Salem!</h2>
+                    <p id="info-text">Salem's a bombay cat who loves causing trouble</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>DIW &#169 2025</p>
+        </footer>
+
+        <script src="scripts/main.js"></script>
+    </body>
 </html>
