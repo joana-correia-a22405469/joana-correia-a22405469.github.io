@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Café Simulator</title>
+
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: #ffe6f0;
+      color: #4a2c2a;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: #ffb6c1;
+      padding: 40px 20px 20px;
+      font-size: 2em;
+      border-bottom: 4px solid #ff8ba7;
+      color: white;
+      text-shadow: 2px 2px #ff6485;
+      position: relative;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    button {
+      background-color: #ff8ba7;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #ff6485;
+      transform: scale(1.05);
+    }
+
+
+    input, select {
+      border: 2px solid #ff8ba7;
+      border-radius: 8px;
+      padding: 8px;
+      margin: 5px;
+      font-size: 1em;
+      outline: none;
+    }
+
+    /*--- coffee area ---*/
+    #coffee-area {
+      margin-top: 40px;
+      position: relative;
+      display: inline-block;
+    }
+
+    #coffee-cup {
+      font-size: 100px;
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><text y="32" font-size="32">🥄</text></svg>') 16 16, auto; /* asked chat */
+      transition: transform 0.3s;
+      display: inline-block;
+      user-select: none;
+    }
+
+    #coffee-cup:hover {
+      transform: scale(1.1);
+    }
+
+    .steam {
+      position: absolute;
+      color: #ffadc6;
+      font-size: 24px;
+      animation: rise 2s ease-out forwards;
+      opacity: 0.9;
+    }
+
+    @keyframes rise {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+    }
+
+    #open-sign {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      background-color: #ff8ba7;
+      border: 3px solid white;
+      color: white;
+      padding: 6px 14px;
+      border-radius: 12px;
+      font-size: 0.9em;
+      box-shadow: 0 0 10px #ffb6c1;
+      animation: glow 2s infinite alternate;
+      letter-spacing: 1px;
+    }
+
+    @keyframes glow {
+      from { box-shadow: 0 0 10px #ffb6c1; }
+      to { box-shadow: 0 0 25px #ff5c8d; }
+    }
+
+    #counter {
+      font-weight: bold;
+      color: #c2185b;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div id="open-sign">☕ Open 00:00:00</div>
+    Welcome to my Café ☕
+  </header>
+
+  <main>
+    <section id="form-area">
+      <h2>Order your drink!</h2>
+
+      <form id="orderForm">
+        <input id="nome" type="text" placeholder="Your name">
+        <input id="drinkInput" type="text" placeholder="Desired drink">
+        <input id="submit "type="submit" value="Submit">
+      </form>
+
+      <p id="greeting"></p>
+    </section>
+
+    <section id="coffee-area">
+      <div id="coffee-cup">☕</div>
+      <p id="coffee-message"></p>
+      <p id="counter">You’ve brewed 0 cups!</p>
+    </section>
+
+    <div>
+      <label for="colorSelect">Want to choose the theme?</label>
+      <select id="colorSelect">
+        <option value="#ffe6f0">Pink</option>
+        <option value="#fff5d6">Yellow</option>
+        <option value="#e0f7fa">Blue</option>
+      </select>
+    </div>
+
+  <footer>
+    <p>DIW &#169; 2025</p>
+  </footer>
+
+  <script>
+    const nomeInput = document.getElementById('nome');
+    const drinkInput = document.getElementById('drinkInput');
+    const greeting = document.getElementById('greeting');
+    const openSign = document.getElementById('open-sign');
+    const coffeeCup = document.getElementById('coffee-cup');
+    const coffeeMessage = document.getElementById('coffee-message');
+    const counterText = document.getElementById('counter');
+    const colorSelect = document.getElementById('colorSelect');
+    const allButtons = document.querySelectorAll('button');
+
+    let isNight = false;
+
+    /*--- load counter from localStorage ---*/
+    let brewCount = parseInt(localStorage.getItem('brewCount')) || 0;
+    counterText.textContent = `You’ve brewed ${brewCount} cup${brewCount !== 1 ? 's' : ''}!`;
+
+    /*---  clock ---*/
+    const updateCafeClock = () => {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      openSign.textContent = `${isNight ? '🌙 Closed' : '☕ Open'} ${hours}:${minutes}:${seconds}`;
+    };
+
+    function count() {
+      updateCafeClock();
+    }
+    setInterval(count, 1000);
+    count();
+
+    /*--- form submission ---*/
+    document.getElementById('orderForm').onsubmit = function(e) {
+      e.preventDefault();
+      const name = nomeInput.value.trim();
+      const drink = drinkInput.value.trim();
+      if (name && drink) {
+        greeting.textContent = `Hello ${name}! Your ${drink} is coming right up!`;
+      } else {
+        greeting.textContent = `Please enter both your name and drink!`;
+      }
+    };
+
+    /*--- brewing click event ---*/
+    coffeeCup.addEventListener('click', (e) => {
+      brewCount++;
+      localStorage.setItem('brewCount', brewCount); /* save progress */
+      counterText.textContent = `You’ve brewed ${brewCount} cup${brewCount !== 1 ? 's' : ''}!`;
+      for (let i = 0; i < 3; i++) {
+        const steam = document.createElement('div');
+        steam.textContent = '♨️';
+        steam.classList.add('steam');
+        steam.style.left = `${e.offsetX + Math.random() * 30 - 15}px`;
+        steam.style.top = `${e.offsetY - 20}px`;
+        coffeeCup.parentElement.appendChild(steam);
+        setTimeout(() => steam.remove(), 2000);
+      }
+    });
+
+    /*--- mouseover & mouseout text ---*/
+    coffeeCup.addEventListener('mouseover', () => coffeeMessage.textContent = 'Brewing...');
+    coffeeCup.addEventListener('mouseout', () => coffeeMessage.textContent = '');
+
+    /*--- querySelectorAll & forEach for all buttons ---*/
+    allButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const btnColor = btn.dataset.color;
+        btn.style.backgroundColor = btnColor;
+        isNight = !isNight;
+        updateCafeClock();
+      });
+    });
+
+    /*--- select element to change page color ---*/
+    colorSelect.onchange = function() {
+      document.querySelector('body').style.backgroundColor = this.value;
+    };
+  </script>
+</body>
+</html>
