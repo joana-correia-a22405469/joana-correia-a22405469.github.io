@@ -44,9 +44,9 @@ html, body {
     margin-bottom: 1rem;
 }
 
-.page-fashion,
-.page-jewellery,
-.page-tech,
+.page-tshirts,
+.page-socks,
+.page-mugs,
 .page-basket {
     background-color: #ed65c8;
 }
@@ -263,4 +263,32 @@ html, body {
     border-radius: 6px;
     background: white;
 }
+
+.filter-bar {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  font-family: 'Inter';
+}
+
+/*--- filter bar style ---*/
+.filter-bar input,
+.filter-bar select {
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.9rem;
+}
+
+.student-check {
+  margin-top: 1rem;
+  font-family: 'Inter';
+  color: white;
+}
+
+.discount-msg {
+  color: #ffeb55;
+  margin-top: 0.5rem;
+}
+
 
