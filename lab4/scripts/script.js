@@ -37,8 +37,8 @@ cat.addEventListener("click", (e) => {
         heart.classList.add("heart");
 
         // pixel distances
-        const offsetX = (Math.random() * 60) - 30;  // random number from -30 to +30
-        const offsetY = (Math.random() * 40) - 20;  // random number from
+        const offsetX = (Math.random() * 60) - 30; 
+        const offsetY = (Math.random() * 40) - 20;  
         /* 60 gives good horizontal spread 
            40 gives good vertical spread 
            30 and 20 center the spread around the click point */ 

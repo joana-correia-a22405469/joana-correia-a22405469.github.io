@@ -1,236 +1,552 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Café Simulator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Potion Library</title>
 
-  <style>
+<!-- S T Y L E   S H E E T --> 
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Pirata+One&display=swap');
+
+    /*~*^+ GLOBAL PAGE STYLE +^*~*/
     body {
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      background-color: #ffe6f0;
-      color: #4a2c2a;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
+        font-family: Pirata One;
+        background-color: #1b102a; 
+        color: #f3e9ff;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;  
     }
 
     header {
-      background-color: #ffb6c1;
-      padding: 40px 20px 20px;
-      font-size: 2em;
-      border-bottom: 4px solid #ff8ba7;
-      color: white;
-      text-shadow: 2px 2px #ff6485;
-      position: relative;
+        background-color: #2c1548;
+        padding: 30px;
+        font-size: 2.2em;
+        color: #e7d1ff;
+        border-bottom: 4px solid #a671ff;
+        text-shadow: 2px 2px #5d2ea6;
     }
 
-    main {
-      padding: 20px;
+    footer {
+        background-color: #2c1548;
+        border-top: 2px solid #a671ff;
+        text-shadow: 2px 2px #5d2ea6;
+        color: #e7d1ff;
+        padding: 10px;
     }
 
-    button {
-      background-color: #ff8ba7;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      padding: 10px 20px;
-      font-size: 1em;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.2s;
+    /*~*^+ SHELF STYLE +^*~*/
+    .shelf-frame {
+        width: 80%;
+        margin: 30px auto;
+        padding: 20px;
+        border: 4px solid #b57cff;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.03);
+        box-shadow: 0 0 20px #b57cff;
     }
 
-    button:hover {
-      background-color: #ff6485;
-      transform: scale(1.05);
+    .shelf-divider {
+        border-top: 3px dashed #cfa3ffc9;  
+        margin: 20px 0;
     }
 
-
-    input, select {
-      border: 2px solid #ff8ba7;
-      border-radius: 8px;
-      padding: 8px;
-      margin: 5px;
-      font-size: 1em;
-      outline: none;
+    .shelf {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 10px 0;
     }
 
-    /*--- coffee area ---*/
-    #coffee-area {
-      margin-top: 40px;
-      position: relative;
-      display: inline-block;
+    /*~*^+ POTIONS +^*~*/
+    .potion {
+        width: 70px;
+        transition: transform 0.2s ease, filter 0.2s ease;
+        cursor: grab;
     }
 
-    #coffee-cup {
-      font-size: 100px;
-      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><text y="32" font-size="32">🥄</text></svg>') 16 16, auto; /* asked chat */
-      transition: transform 0.3s;
-      display: inline-block;
-      user-select: none;
+    .potion:hover {
+        transform: scale(1.15);
+        filter: drop-shadow(0 0 10px #c48bff);
     }
 
-    #coffee-cup:hover {
-      transform: scale(1.1);
+    /*~*^+ SPELL CAST ANIMATION +^*~*/
+    .spell-cast {
+        position: absolute;
+        width: 220px;           
+        left: 50%;
+        top: -20px;                 
+        transform: translateX(-50%);
+        pointer-events: none;
+        animation: pop 0.8s ease-out forwards;
+        z-index: 50;
     }
 
-    .steam {
-      position: absolute;
-      color: #ffadc6;
-      font-size: 24px;
-      animation: rise 2s ease-out forwards;
-      opacity: 0.9;
+    @keyframes pop {
+        0%   { opacity: 0; transform: translateX(-50%) scale(0.3); }
+        50%  { opacity: 1; transform: translateX(-50%) scale(1.2); }
+        100% { opacity: 0; transform: translateX(-50%) scale(0.5); }
     }
 
-    @keyframes rise {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+    /*~*^+ CAULDRON +^*~*/
+    #cauldron-area {
+        margin-top: 40px;
+        text-align: center;
+        position: relative;
     }
 
-    #open-sign {
-      position: absolute;
-      top: 10px;
-      left: 20px;
-      background-color: #ff8ba7;
-      border: 3px solid white;
-      color: white;
-      padding: 6px 14px;
-      border-radius: 12px;
-      font-size: 0.9em;
-      box-shadow: 0 0 10px #ffb6c1;
-      animation: glow 2s infinite alternate;
-      letter-spacing: 1px;
+    #cauldron-img {
+        width: 170px;
+        transition: transform 0.25s ease;
+        cursor: pointer;
+        filter: drop-shadow(0 0 12px #b57cff);
+        z-index: 1;
     }
 
-    @keyframes glow {
-      from { box-shadow: 0 0 10px #ffb6c1; }
-      to { box-shadow: 0 0 25px #ff5c8d; }
+    #cauldron-img:hover {
+        transform: scale(1.08);
     }
 
-    #counter {
-      font-weight: bold;
-      color: #c2185b;
+    /*~*^+ BUBBLES +^*~*/
+    #bubble-wrapper {
+        position: relative;
+        width: 170px;    
+        height: 20px;    
+        margin: 0 auto;
+        top: -170px;      
+        pointer-events: none;
     }
-  </style>
+
+    .bubbles {
+        position: absolute;
+        width: 60px;
+        animation: floatUp 2.5s ease-out forwards;
+        pointer-events: none;
+    }
+
+    @keyframes floatUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-240px);
+    }
+    } 
+
+    /*~*^+ TEMPERATURE +^*~*/
+    #heat-display {
+        margin-top: 10px;
+        font-size: 1.2em;
+        color: #ffb3f6;
+        text-shadow: 0 0 5px #ce7bff;
+    }
+
+    /*~*^+ SPELLBOOK + CAULDRON + FORM ROW +^*~*/
+    #magic-row {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        justify-items: center;
+        margin-top: -130px;
+        margin-bottom: -80px;
+        width: 100%;
+    }
+
+    /*~*^+ SPELLBOOK +^*~*/
+    #spellbook-container {
+        position: relative;
+        width: 320px;
+    }
+
+    #spellbook-img {
+        width: 100%;
+        cursor: pointer;
+        filter: drop-shadow(0 0 10px #b57cff);
+        transition: transform 0.2s;
+    }
+
+    #spellbook-img:hover {
+        transform: scale(1.05);
+    }
+
+    #spellbook-preview {
+        position: absolute;
+        top: 25%;                 
+        left: 30%;
+        width: 70%;
+        font-size: 20px;
+        line-height: 1.4em;
+        color: #e5d7f0;
+        font-family: Pirata One;
+        pointer-events: none;
+        text-align: left;
+    }
+
+    /*~*^+ SPELL FORM +^*~*/
+    #spell-form {
+        width: 320px;
+        padding: 20px;
+        border: 2px solid #b57cff;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.05);
+        box-shadow: 0 0 12px #b57cff;
+    }
+
+    #spell-form input {
+        width: 90%;
+        margin: 8px 0;
+        padding: 10px;
+        border-radius: 10px;
+        border: 2px solid #a671ff;
+        background: #2c1548;
+        color: #f3e9ff;
+        font-family: Pirata One;
+    }
+
+    #spell-form button {
+        margin-top: 10px;
+        padding: 8px 20px;
+        border: none;
+        border-radius: 12px;
+        background: #b57cff;
+        color: white;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: 0.2s;
+        font-family: Pirata One;
+    }   
+
+    #spell-form button:hover {
+        background: #d5a6ff;
+    }
+
+    /*~*^+ SPELLBOOK MODAL +^*~*/
+    #spellbook-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.6);
+        z-index: 1000;
+    }
+
+    #modal-content {
+        width: 400px;
+        margin: 8% auto;
+        padding: 25px;
+        background: #2c1548;
+        border-radius: 15px;
+        text-align: center;
+        border: 3px solid #b57cff;
+        box-shadow: 0 0 20px #b57cff;
+    }
+
+    #modal-content h2 {
+        margin-top: 0;
+    }
+
+    #spell-list {
+        text-align: left;
+        margin-top: 15px;
+        line-height: 1.6em;
+    }
+
+    .delete-btn {
+        background: #b57cff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 2px 8px;
+        cursor: pointer;
+        margin-left: 10px;
+        font-family: Pirata One;
+    }
+
+    .delete-btn:hover {
+        background: #e0b4ff;
+    }
+
+    #close-modal {
+        float: right;
+        font-size: 32px;
+        cursor: pointer;
+        color: #f3e9ff;
+    }
+
+</style>
 </head>
 
 <body>
-  <header>
-    <div id="open-sign">☕ Open 00:00:00</div>
-    Welcome to my Café ☕
-  </header>
+    <header>Potion Library</header>
+    <main>
 
-  <main>
-    <section id="form-area">
-      <h2>Order your drink!</h2>
+    <!-- S H E L F   C A B I N E T -->
+    <div class="shelf-frame">
+        <div class="shelf">
+            <img src="assets/potion1.png" class="potion" data-id="1" data-spell="purple" draggable="true">
+            <img src="assets/potion2.png" class="potion" data-id="2" data-spell="fire" draggable="true">
+            <img src="assets/potion3.png" class="potion" data-id="3" data-spell="ice" draggable="true">
+            <img src="assets/potion4.png" class="potion" data-id="4" data-spell="boom" draggable="true">
+            <img src="assets/potion5.png" class="potion" data-id="5" data-spell="purple" draggable="true">
+        </div>
 
-      <form id="orderForm">
-        <input id="nome" type="text" placeholder="Your name">
-        <input id="drinkInput" type="text" placeholder="Desired drink">
-        <input id="submit "type="submit" value="Submit">
-      </form>
+        <div class="shelf-divider"></div>
 
-      <p id="greeting"></p>
-    </section>
-
-    <section id="coffee-area">
-      <div id="coffee-cup">☕</div>
-      <p id="coffee-message"></p>
-      <p id="counter">You’ve brewed 0 cups!</p>
-    </section>
-
-    <div>
-      <label for="colorSelect">Want to choose the theme?</label>
-      <select id="colorSelect">
-        <option value="#ffe6f0">Pink</option>
-        <option value="#fff5d6">Yellow</option>
-        <option value="#e0f7fa">Blue</option>
-      </select>
+        <div class="shelf">
+            <img src="assets/potion6.png" class="potion" data-id="6" data-spell="ice" draggable="true">
+            <img src="assets/potion7.png" class="potion" data-id="7" data-spell="boom" draggable="true">
+            <img src="assets/potion8.png" class="potion" data-id="8" data-spell="fire" draggable="true">
+            <img src="assets/potion9.png" class="potion" data-id="9" data-spell="purple" draggable="true">
+            <img src="assets/potion10.png" class="potion" data-id="10" data-spell="purple" draggable="true">
+        </div>
     </div>
 
-  <footer>
-    <p>DIW &#169; 2025</p>
-  </footer>
+    <p id="potion-description"></p>
 
-  <script>
-    const nomeInput = document.getElementById('nome');
-    const drinkInput = document.getElementById('drinkInput');
-    const greeting = document.getElementById('greeting');
-    const openSign = document.getElementById('open-sign');
-    const coffeeCup = document.getElementById('coffee-cup');
-    const coffeeMessage = document.getElementById('coffee-message');
-    const counterText = document.getElementById('counter');
-    const colorSelect = document.getElementById('colorSelect');
-    const allButtons = document.querySelectorAll('button');
+    <!-- B O T T O M    R O W -->
+    <div id="magic-row">
 
-    let isNight = false;
+        <!-- S P E L L B O O K -->
+        <div id="spellbook-container">
+            <img id="spellbook-img" src="assets/spellbook.png" alt="Spellbook">
+            <p id="spellbook-preview">No spells added yet...</p>
+        </div>
 
-    /*--- load counter from localStorage ---*/
-    let brewCount = parseInt(localStorage.getItem('brewCount')) || 0;
-    counterText.textContent = `You’ve brewed ${brewCount} cup${brewCount !== 1 ? 's' : ''}!`;
+        <!-- C A U L D R O N -->
+        <div id="cauldron-column">
+            <section id="cauldron-area">
+                <img id="cauldron-img" src="assets/cauldron.png">
+                <div id="bubble-wrapper"></div>
+                <p id="heat-display">Cauldron heat: 0°</p>
+            </section>
+        </div>
 
-    /*---  clock ---*/
-    const updateCafeClock = () => {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-      openSign.textContent = `${isNight ? '🌙 Closed' : '☕ Open'} ${hours}:${minutes}:${seconds}`;
+        <!-- S P E L L    F O R M -->
+        <div id="spell-form">
+            <h3>Add a new spell to your grimoire</h3>
+
+            <input type="text" id="spellName" placeholder="Spell name"><br>
+            <input type="text" id="spellEffect" placeholder="Spell effect"><br>
+
+            <button id="addSpellBtn">Add Spell</button>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>DIW © 2025</p>
+    </footer>
+</main>
+
+<!-- P O P U P   S P E L L B O O K   M O D A L -->
+<div id="spellbook-modal">
+    <div id="modal-content">
+        <span id="close-modal">&times;</span>
+        <h2>Your Spellbook</h2>
+        <ul id="spell-list"></ul>
+    </div>
+</div>
+
+<!-- S C R I P T -->
+<script>
+    /*--- CONSTS ---*/
+    const cauldron = document.getElementById('cauldron-img');
+    const bubbleWrapper = document.getElementById('bubble-wrapper');
+    const heatDisplay = document.getElementById('heat-display');
+
+    const spellbookImg = document.getElementById('spellbook-img');
+    const spellbookPreview = document.getElementById('spellbook-preview');
+
+    const spellModal = document.getElementById('spellbook-modal');
+    const closeModal = document.getElementById('close-modal');
+    const spellList = document.getElementById('spell-list');
+
+    const spellNameInput = document.getElementById('spellName');
+    const spellEffectInput = document.getElementById('spellEffect');
+    const addSpellBtn = document.getElementById('addSpellBtn');
+
+    const potionDescriptions = {
+        1: "A love spell.",
+        2: "Something forbidden.",
+        3: "Changes to daytime.",
+        4: "Death in a bottle.",
+        5: "Changes to nighttime.",
+        6: "Something magical.",
+        7: "Unknown.",
+        8: "Summons a pet.",
+        9: "Something sweet.",
+        10: "An even stronger lovespell."
     };
 
-    function count() {
-      updateCafeClock();
+    /*--- VARIABLES ---*/
+    let temperature = 0;
+    let spell = null;
+    let savedSpells = JSON.parse(localStorage.getItem("spells")) || [];
+    let spellbookPreviewLength = 0;
+
+    /*--- FUNCTIONS ---*/
+    // spellbook preview update
+    function refreshPreview() {
+        if (savedSpells.length === 0) {
+            spellbookPreview.textContent = "No spells added yet...";
+        } else {
+            spellbookPreview.textContent = `${savedSpells.length} spells added!`;
+        }
     }
-    setInterval(count, 1000);
-    count();
 
-    /*--- form submission ---*/
-    document.getElementById('orderForm').onsubmit = function(e) {
-      e.preventDefault();
-      const name = nomeInput.value.trim();
-      const drink = drinkInput.value.trim();
-      if (name && drink) {
-        greeting.textContent = `Hello ${name}! Your ${drink} is coming right up!`;
-      } else {
-        greeting.textContent = `Please enter both your name and drink!`;
-      }
-    };
+    // temperature decrease over time
+    setInterval(() => {
+        if (temperature > 0) {
+            temperature--;
+            heatDisplay.textContent = `Cauldron heat: ${temperature}°`;
+        }
+    }, 2000);
 
-    /*--- brewing click event ---*/
-    coffeeCup.addEventListener('click', (e) => {
-      brewCount++;
-      localStorage.setItem('brewCount', brewCount); /* save progress */
-      counterText.textContent = `You’ve brewed ${brewCount} cup${brewCount !== 1 ? 's' : ''}!`;
-      for (let i = 0; i < 3; i++) {
-        const steam = document.createElement('div');
-        steam.textContent = '♨️';
-        steam.classList.add('steam');
-        steam.style.left = `${e.offsetX + Math.random() * 30 - 15}px`;
-        steam.style.top = `${e.offsetY - 20}px`;
-        coffeeCup.parentElement.appendChild(steam);
-        setTimeout(() => steam.remove(), 2000);
-      }
+    /*--- EVENT LISTENERS ---*/
+    // cauldron click - increase temp & create bubbles
+    cauldron.addEventListener("click", (e) => { 
+        // increase temperature
+        if (temperature < 100) {
+            temperature += 10;
+            heatDisplay.textContent = `Cauldron heat: ${temperature}°`;
+        } else {
+            temperature = 0;
+            heatDisplay.textContent = `Cauldron heat: ${temperature}°`;
+        }
+
+        // create bubbles
+        const bubbles = document.createElement("img");
+        bubbles.src = "assets/bubbles.png";
+        bubbles.classList.add("bubbles");
+
+        const offsetX = (Math.random() * 40) - 20;
+        const offsetY = (Math.random() * 20) - 10;
+
+        const startX = e.offsetX + offsetX;
+        const startY = e.offsetY + offsetY - 50;   
+
+        bubbles.style.left = `${startX}px`;
+        bubbles.style.top  = `${startY}px`;
+
+        bubbleWrapper.appendChild(bubbles);
+
+        setTimeout(() => {
+            bubbles.remove(); 
+        }, 1500);
     });
 
-    /*--- mouseover & mouseout text ---*/
-    coffeeCup.addEventListener('mouseover', () => coffeeMessage.textContent = 'Brewing...');
-    coffeeCup.addEventListener('mouseout', () => coffeeMessage.textContent = '');
+    // potion drag and drop onto cauldron
+    document.querySelectorAll('.potion').forEach(potion => {
+        potion.addEventListener('dragstart', (e) => {
+            spell = potion.dataset.spell;
+        });
 
-    /*--- querySelectorAll & forEach for all buttons ---*/
-    allButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const btnColor = btn.dataset.color;
-        btn.style.backgroundColor = btnColor;
-        isNight = !isNight;
-        updateCafeClock();
-      });
+        // show potion description on hover
+        potion.addEventListener('mouseover', (e) => {
+            const description = document.getElementById('potion-description');
+            const id = potion.dataset.id;
+            description.textContent = potionDescriptions[id];
+        });
+
+        potion.addEventListener('mouseout', () => {
+            const description = document.getElementById('potion-description');
+            description.textContent = '';
+        });
     });
 
-    /*--- select element to change page color ---*/
-    colorSelect.onchange = function() {
-      document.querySelector('body').style.backgroundColor = this.value;
-    };
-  </script>
+    // allow cauldron dragover & drop
+    cauldron.addEventListener('dragover', (e) => {
+        e.preventDefault(); 
+    });
+
+    // drop event - cast spell
+    cauldron.addEventListener('drop', (e) => {
+        if (!spell) return;
+
+        let spellCast = document.createElement('img');
+        spellCast.classList.add('spell-cast');
+
+        if (spell === 'purple') {
+            spellCast.src = 'assets/purple.png';
+        } else if (spell === 'fire') {
+            spellCast.src = 'assets/fire.png';
+        } else if (spell === 'ice') {
+            spellCast.src = 'assets/ice.png';
+        } else if (spell === 'boom') {
+            spellCast.src = 'assets/boom.png';
+        }
+
+        cauldron.parentElement.appendChild(spellCast);
+
+        setTimeout(() => spellCast.remove(), 1200);
+    });
+
+    // add spell button
+    addSpellBtn.addEventListener("click", () => {
+        const name = spellNameInput.value.trim();
+        const effect = spellEffectInput.value.trim();
+
+        if (name === "" || effect === "") return;
+
+        savedSpells.push({ name, effect });
+        localStorage.setItem("spells", JSON.stringify(savedSpells));
+
+        spellNameInput.value = "";
+        spellEffectInput.value = "";
+
+        refreshPreview();
+    });
+
+    // open spellbook modal
+    spellbookImg.addEventListener("click", () => {
+        spellList.innerHTML = ""; // clear previous
+
+        savedSpells.forEach((spell, index) => {
+            const li = document.createElement("li");
+            li.style.display = "flex";
+            li.style.justifyContent = "space-between";
+            li.style.alignItems = "center";
+
+            li.innerHTML = `
+                <span>${spell.name}: ${spell.effect}</span>
+                <button class="delete-btn" data-index="${index}">X</button>
+            `;
+            spellList.appendChild(li);
+        });
+        spellModal.style.display = "block";
+    });
+
+    // close spellbook modal
+    closeModal.addEventListener("click", () => {
+        spellModal.style.display = "none";
+    });
+
+    // close modal when clicking outside content
+    spellModal.addEventListener("click", (e) => {
+        if (e.target === spellModal) {
+            spellModal.style.display = "none";
+        }
+    });
+
+    // delete spell from list
+    spellList.addEventListener("click", (e) => {
+        if (!e.target.classList.contains("delete-btn")) return;
+
+        const index = e.target.dataset.index;
+        savedSpells.splice(index, 1);
+        localStorage.setItem("spells", JSON.stringify(savedSpells));
+
+        refreshPreview();
+
+        // re-open modal with updated spell list
+        spellbookImg.click();
+    });
+</script>
 </body>
 </html>
