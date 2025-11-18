@@ -2,6 +2,7 @@ console.log("JS is connected!");
 
 //--- GLOBAL CONSTS ---//
 const cat = document.getElementById("cat");
+const catWrapper = document.getElementById("cat-wrapper");
 const counter = document.getElementById("counter");
 const catMessage = document.getElementById("cat-message");
 
@@ -46,7 +47,7 @@ cat.addEventListener("click", (e) => {
         heart.style.top = (e.offsetY + offsetY) + "px";
         // e.offsetX = exact click position & offsetX/Y = random jitter left/right
 
-        cat.parentElement.appendChild(heart); // adds heart to page
+        catWrapper.appendChild(heart); // adds heart to page
 
         setTimeout(() => {
             heart.remove(); // removes heart after 1.5s

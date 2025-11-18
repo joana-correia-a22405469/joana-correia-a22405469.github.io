@@ -80,10 +80,19 @@ h1::after {
 }
 
 #cat {
+    overflow: visible;
     width: 250px;
     transition: transform 0.3s ease;
     cursor: pointer;
 }
+
+#cat-wrapper {
+    position: relative;
+    display: inline-block; /* keeps wrapper sized to salem */
+    overflow: visible;
+}
+
+
 
 #cat:hover {
     transform: scale(1.05);
