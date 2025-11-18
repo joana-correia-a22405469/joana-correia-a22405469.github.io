@@ -1,6 +1,9 @@
+/* fonts */
+@import url('https://fonts.googleapis.com/css2?family=Barriecito&display=swap');
+
+
 /* page styling */
 body {
-    font-family: Comic Sans MS;
     background-color: #fff7e6;
     color: #333;
     text-align: center;
@@ -9,17 +12,22 @@ body {
 }
 
 header, footer {
+    font-family: 'Barriecito';
+    letter-spacing: 1px;
     background-color: #ffcc80;
     padding: 15px;
     border-bottom: 2px solid #e69500;
 }
 
 main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    padding: 20px;
+    font-family: Comic Sans MS;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap : 40px 40px;
+    padding: 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start;
 }
 
 footer {
@@ -27,9 +35,48 @@ footer {
     margin-top: 20px;
 }
 
+.card {
+    background-color: #ffefc6;       
+    border: 3px solid #ffa726;        
+    border-radius: 20px;            
+    padding: 20px;
+    box-shadow: 0 6px 0px #cc8a2a;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 0px #cc8a2a;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+h1::after {
+    content: "";
+    display: block;
+    width: 120px;
+    height: 6px;
+    background-color: #ffa726;
+    border-radius: 4px;
+    margin: 10px auto 0;
+}
+
 /* cat styling */
 #cat-area {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    grid-row: 1 / span 2;
+}
+
+#cat-area:hover::before {
+    content: "💗";
+    font-size: 28px;
+    position: absolute;
+    top: -15px;
+    right: -15px;
 }
 
 #cat {
@@ -42,22 +89,50 @@ footer {
     transform: scale(1.05);
 }
 
+#cat-message {
+    color: #ff6600;
+}
+
 /* animated hearts */
 .heart {
     position: absolute;
     color: red;
     font-size: 22px;
     animation: floatUp 2.5s ease-out forwards;
-    opacity: 0.9;
+    pointer-events: none;
 }
 
 @keyframes floatUp {
-    0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
-    50% { transform: translateY(-50px) scale(1.4) rotate(20deg); opacity: 0.9; }
-    100% { transform: translateY(-120px) scale(0.8) rotate(-15deg); opacity: 0; }
-}
+    /*opacity: 1 → 0 → heart fades out*/
+    /*translateY: 0 → -40px → heart moves up*/
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+}  
 
 /* fish styling */
+#fish-area {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#fish-area:hover::before {
+    content: "💗";
+    font-size: 28px;
+    position: absolute;
+    top: -15px;
+    right: -15px;
+}
+
 #fish {
     width: 100px;
     cursor: grab;
@@ -69,7 +144,33 @@ footer {
     transform: scale(1.2);
 }
 
+.wiggle {
+    animation: wiggle 0.3s infinite alternate;
+}
+
+@keyframes wiggle {
+    from { transform: rotate(-6deg); }
+    to   { transform: rotate(6deg); }
+}
+
+
 /* info box styling */
+#info-area {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#info-area:hover::before {
+    content: "💗";
+    font-size: 28px;
+    position: absolute;
+    top: -15px;
+    right: -15px;
+}
+
 #info-box {
     width: 300px;
     background-color: #ffebc6;
@@ -101,16 +202,38 @@ footer {
     100% { transform: scale(1) rotate(0deg); }
 }
 
-#comment-box {
-    margin-top: -2em;
+/* phone */
+@media (max-width: 800px) {
+
+    main {
+        grid-template-columns: 1fr;
+        padding: 20px;   
+        gap: 20px;         
+    }
+
+    #cat-area {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    #info-area {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    #fish-area {
+        grid-column: 1;
+        grid-row: 3;
+    }
+
+    .card {
+        max-width: 95%;
+        margin: 0 auto;
+    }
+
+    body {
+        font-size: 16px;
+    }
+    
 }
 
-
-/* cursor follower */
-#follow-img {
-    position: fixed;
-    width: 80px;
-    opacity: 0.8;
-    pointer-events: none;
-    transition: transform 0.1s linear;
-}
