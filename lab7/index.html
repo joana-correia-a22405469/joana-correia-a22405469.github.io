@@ -1,150 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>rendr</title>
-  <link rel="stylesheet" href="css/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEISI Shop - Final Version</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
-  <main class="flipbook" style="visibility:hidden">
+    <header>
+        <h1>Loja DEISI</h1>
+        <button onclick="document.getElementById('checkout-section').scrollIntoView({behavior: 'smooth'})" class="btn-nav">
+            Go to Cart 🛒
+        </button>
+    </header>
 
-    <!-- HOME -->
-    <section class="page page-home" id="home">
-      <header class="hero">
-        <section class="poster">
-          <h1 class="poster-text">rendr</h1>
-        </section>
-
-        <nav class="navbar" aria-label="Main navigation">
-          <div class="nav-content">
-            <ul class="nav-links">
-              <li><a href="#home" class="nav-link"><b>store</b></a></li>
-              <li><a href="#tshirts" class="nav-link"><b>clothes</b></a></li>
-              <li><a href="#mugs" class="nav-link"><b>mugs</b></a></li>
-              <li><a href="#basket" class="nav-link"><b>shopping basket</b></a></li>
-            </ul>
-          </div>
-        </nav>
-
-        <footer class="footer"><p>Flip the corner!</p></footer>
-      </header>
-    </section>
-
-    <!-- T-SHIRTS -->
-    <section class="page page-tshirts" id="tshirts">
-      <header class="hero">
-        <section class="poster">
-          <h2 class="poster-text">t-shirts</h2>
-        </section>
-
-        <div class="page-container">
-          <nav class="navbar" aria-label="Secondary navigation">
-            <div class="nav-content">
-              <ul class="nav-links">
-                <li><a href="#home" class="nav-link"><b>store</b></a></li>
-                <li><a href="#mugs" class="nav-link"><b>mugs</b></a></li>
-                <li><a href="#basket" class="nav-link"><b>shopping basket</b></a></li>
-              </ul>
+    <main>
+        <section id="filtros">
+            <div class="filter-group">
+                <label>Category:</label>
+                <select id="filtro-categoria">
+                    <option value="todas">All categories</option>
+                    </select>
             </div>
-          </nav>
-
-          <div class="inner-container">
-            <section id="tshirt-list" class="products" aria-label="Tshirt list"></section>
-          </div>
-        </div>
-
-        <footer class="footer"><p>t-shirts</p></footer>
-      </header>
-    </section>
-
-    <!-- SOCKS -->
-    <section class="page page-socks" id="socks">
-      <header class="hero">
-        <section class="poster">
-          <h2 class="poster-text">socks</h2>
+            <div class="filter-group">
+                <label>Sort by:</label>
+                <select id="filtro-ordenar">
+                    <option value="nenhum">No sorting</option>
+                    <option value="crescente">Price: Low to High</option>
+                    <option value="decrescente">Price: High to Low</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Search:</label>
+                <input type="text" id="filtro-pesquisa" placeholder="Product name...">
+            </div>
         </section>
 
-        <div class="page-container">
-          <nav class="navbar">
-            <div class="nav-content">
-              <ul class="nav-links">
-                <li><a href="#home" class="nav-link"><b>store</b></a></li>
-                <li><a href="#mugs" class="nav-link"><b>mugs</b></a></li>
-                <li><a href="#basket" class="nav-link"><b>shopping basket</b></a></li>
-              </ul>
-            </div>
-          </nav>
-
-          <div class="inner-container">
-            <section id="sock-list" class="products" aria-label="Sock list"></section>
-          </div>
-        </div>
-
-        <footer class="footer"><p>socks</p></footer>
-      </header>
-    </section>
-
-    <!-- MUGS -->
-    <section class="page page-mugs" id="mugs">
-      <header class="hero">
-        <section class="poster">
-          <h2 class="poster-text">mugs</h2>
+        <section id="lista-produtos">
+            <div class="loading-msg">Loading products...</div>
         </section>
 
-        <div class="page-container">
-          <nav class="navbar">
-            <div class="nav-content">
-              <ul class="nav-links">
-                <li><a href="#home" class="nav-link"><b>store</b></a></li>
-                <li><a href="#tshirts" class="nav-link"><b>clothes</b></a></li>
-              </ul>
+        <section id="checkout-section">
+            
+            <div class="cart-container">
+                <h2>Your Cart</h2>
+                <div id="carrinho-items">
+                    <p>The cart is empty.</p>
+                </div>
+                <div id="valor-total">Total: 0.00 €</div>
             </div>
-          </nav>
 
-          <div class="inner-container">
-            <section id="mug-list" class="products" aria-label="Mug list"></section>
-          </div>
-        </div>
+            <div class="form-container">
+                <h2>Checkout</h2>
+                
+                <div id="step-form">
+                    <form id="form-checkout">
+                        <label>Name:</label>
+                        <input type="text" id="nome" required placeholder="Full name">
 
-        <footer class="footer"><p>mugs</p></footer>
-      </header>
-    </section>
+                        <label class="checkbox-area">
+                            <input type="checkbox" id="estudante">
+                            <span>I am a student (Discount)</span>
+                        </label>
 
-    <!-- BASKET -->
-    <section class="page page-basket" id="basket">
-      <header class="hero">
-        <section class="poster">
-          <h2 class="poster-text">basket</h2>
+                        <label>Coupon:</label>
+                        <input type="text" id="cupao" placeholder="Ex: black-friday">
+
+                        <button type="submit" id="btn-comprar">Confirm Payment</button>
+                    </form>
+                </div>
+
+                <div id="step-fatura" class="hidden">
+                    <div class="success-box">
+                        <h3 style="color:green">✅ Purchase Successful!</h3>
+                        <p id="msg-sucesso"></p>
+                        <p><strong>Reference:</strong> <span id="ref-pagamento"></span></p>
+                        <p><strong>Final Amount:</strong> <span id="total-pago" style="font-size:1.2rem; font-weight:bold"></span></p>
+                        <button id="btn-reload">New Purchase</button>
+                    </div>
+                </div>
+            </div>
         </section>
+    </main>
 
-        <div class="page-container">
-          <nav class="navbar">
-            <div class="nav-content">
-              <ul class="nav-links">
-                <li><a href="#home" class="nav-link"><b>store</b></a></li>
-                <li><a href="#fashion" class="nav-link"><b>style</b></a></li>
-              </ul>
-            </div>
-          </nav>
+    <footer>
+        <p>&copy; DIW 2025 - Shop </p>
+    </footer>
 
-          <div class="inner-container">
-            <section id="basket-items" class="basket" aria-label="Shopping basket"></section>
-          </div>
-        </div>
-
-        <footer class="footer"><p>your shopping basket</p></footer>
-      </header>
-    </section>
-
-  </main>
-
-  <script src="scripts/jquery.js"></script>
-  <script src="scripts/turn.js"></script>
-  <script src="scripts/design.js"></script>
-  <script src="scripts/produtos.js"></script>
-  <script src="scripts/main.js"></script>
+    <script src="scripts/script.js"></script>
 </body>
 </html>
